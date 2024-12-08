@@ -38,7 +38,7 @@ These algorithms focus on visualizing the search process itself, providing insig
 2.  **Installation:**
 
     ```bash
-    git clone https://github.com/yourusername/ai-snake-game.git 
+    git clone https://github.com/Ta-Pc/Snake-Game.git 
     cd ai-snake-game
     python3 -m venv .venv
     source .venv/bin/activate  # Activate virtual environment (Linux/macOS)
@@ -97,4 +97,8 @@ Contributions are welcome! Feel free to submit pull requests for bug fixes, new 
 
 ## License
 
-[MIT License](LICENSE)  (Or specify your chosen license)
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details.
+
+You may obtain a copy of the License at:
+
+[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
