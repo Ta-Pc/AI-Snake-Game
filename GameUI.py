@@ -12,6 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
+from pygame.event import Event
 from Game import Game
 from GameState import *
 from Constants import *
@@ -342,6 +343,26 @@ class AIPlaySelectState(GameState):
         elif selected_ai == "Greedy":
             game.change_state(AIPlayerGreedyState())
         game.start_game(new_game=True)
+
+class ExperimentSelectState(GameOverState):
+    def enter(self, game: Game):
+        pass
+
+    def handle_events(self, game: Game, events: list[Event]):
+        self._handle_actions(game)
+    
+    def _handle_actions(self, game: Game):
+        return super()._handle_actions(game)
+    
+    def update(self, game: Game):
+        return super().update(game)
+    
+    def draw(self, game: Game):
+        return super().draw(game)
+    
+    def exit(self, game: Game):
+        return super().exit(game)
+    
 
 
 class AIVisionSelectState(GameState):

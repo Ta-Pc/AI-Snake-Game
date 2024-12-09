@@ -73,7 +73,7 @@ class Game:
         from GameUI import MenuState
         from Experiment import GraphCreationVisionLocalSearch_Exp
         from Experiment import AIPlayerBFSStateExp
-        self.state = GraphCreationVisionLocalSearch_Exp()
+        self.state = MenuState()
         self.state.enter(self)
 
     def change_state(self, new_state):

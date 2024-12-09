@@ -144,7 +144,7 @@ class GraphCreationVisionDFS(GameState):
         game.clock.tick(game.game_update_rate)
 
     def exit(self, game: Game):
-        pass
+        game.previous_state = self
 
 
 class GraphCreationVisionBFS(GameState):
@@ -278,7 +278,7 @@ class GraphCreationVisionBFS(GameState):
         game.clock.tick(game.game_update_rate)
 
     def exit(self, game: Game):
-        pass
+        game.previous_state = self
 
 
 class GraphCreationVisionAStarSearch(GameState):
@@ -433,7 +433,7 @@ class GraphCreationVisionAStarSearch(GameState):
         game.clock.tick(game.game_update_rate)
 
     def exit(self, game: Game):
-        pass
+        game.previous_state = self
 
 
 
@@ -571,7 +571,7 @@ class GraphCreationVisionGreedySearch(GameState):
         game.clock.tick(game.game_update_rate)
 
     def exit(self, game: Game):
-        pass
+        game.previous_state = self
 
 class GraphCreationVisionAStarSearchUpdated(GameState):
     def enter(self, game: Game):
