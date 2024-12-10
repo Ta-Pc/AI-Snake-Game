@@ -25,7 +25,7 @@ from SearchAlgorithmsPlaySnake import *
 
 class MenuState(GameState):
     def enter(self, game: Game):
-        pass
+        game.game_hud.current_menu = game.game_hud.menu_lists['main_menu']
 
     def handle_events(self, game: Game, events: list[pygame.event.Event]):
 
@@ -35,11 +35,11 @@ class MenuState(GameState):
                 
 
     def _handle_actions(self, game: Game):
-        if game.controls.is_just_pressed('UP'):
+        if game.controls.is_just_pressed(game.controls.UP):
             game.game_hud.navigate_menu(-1)
-        elif game.controls.is_just_pressed('DOWN'):
+        elif game.controls.is_just_pressed(game.controls.DOWN):
             game.game_hud.navigate_menu(1)
-        elif game.controls.is_just_pressed('SELECT'):
+        elif game.controls.is_just_pressed(game.controls.SELECT):
             self._handle_menu_select(game)
 
     
@@ -53,7 +53,7 @@ class MenuState(GameState):
         pass
 
     def _handle_menu_select(self, game: Game):
-        selected_item = game.game_hud.select_menu_item()
+        selected_item = game.game_hud.get_selected_item()
         if selected_item == "Quit":
             game.running = False
         elif selected_item == "New Game":
@@ -224,7 +224,7 @@ class HighScoresState(GameState):
 
 class LevelSelectState(GameState):
     def enter(self, game: Game):
-        pass
+        game.game_hud.current_menu = game.game_hud.menu_lists['game_level_menu']
     
     def handle_events(self, game: Game, events: list[pygame.event.Event]):
         for event in events:
@@ -233,26 +233,26 @@ class LevelSelectState(GameState):
     
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('UP'):
-            game.game_hud.navigate_level_select(-1)
+            game.game_hud.navigate_menu(-1)
         elif game.controls.is_just_pressed('DOWN'):
-            game.game_hud.navigate_level_select(1)
+            game.game_hud.navigate_menu(1)
         elif game.controls.is_just_pressed('ESCAPE'):
             game.change_state(MenuState())
         elif game.controls.is_just_pressed('SELECT'):
-            self._handle_menu_select(game)
+            self._handle_level_select(game)
     
     def update(self, game: Game):
         game.clock.tick(game.menu_update_rate)
     
     def draw(self, game: Game):
-        game.game_hud.draw_level_select()
+        game.game_hud.draw_menu()
     
 
     def exit(self, game: Game):
         pass
 
-    def _handle_menu_select(self, game: Game):
-        selected_level = game.game_hud.select_level_item()
+    def _handle_level_select(self, game: Game):
+        selected_level = game.game_hud.get_selected_item()
         game.game_hud.memorise_game_level(selected_level)
         if selected_level == "EASY":
             game.game_update_rate = LEVEL_2
@@ -275,9 +275,9 @@ class AIGameSelectState(GameState):
     
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('UP'):
-            game.game_hud.navigate_ai_select(-1)
+            game.game_hud.navigate_menu(-1)
         elif game.controls.is_just_pressed('DOWN'):
-            game.game_hud.navigate_ai_select(1)
+            game.game_hud.navigate_menu(1)
         elif game.controls.is_just_pressed('ESCAPE'):
             game.change_state(MenuState())
         elif game.controls.is_just_pressed('SELECT'):
@@ -287,14 +287,14 @@ class AIGameSelectState(GameState):
         game.clock.tick(game.menu_update_rate)
     
     def draw(self, game: Game):
-        game.game_hud.draw_ai_select()
+        game.game_hud.draw_menu()
     
 
     def exit(self, game: Game):
         pass
 
     def _handle_ai_select(self, game: Game):
-        selected_ai = game.game_hud.select_ai_item()
+        selected_ai = game.game_hud.get_selected_item()
         if selected_ai == "AI Vision":
             game.change_state(AIVisionSelectState())
         elif selected_ai == "AI Play":
@@ -305,7 +305,7 @@ class AIGameSelectState(GameState):
 
 class AIPlaySelectState(GameState):
     def enter(self, game: Game):
-        pass
+        game.game_hud.current_menu = game.game_hud.menu_lists['ai_play_menu']
     
     def handle_events(self, game: Game, events: list[pygame.event.Event]):
         for event in events:
@@ -314,9 +314,9 @@ class AIPlaySelectState(GameState):
     
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('UP'):
-            game.game_hud.navigate_ai_play_select(-1)
+            game.game_hud.navigate_menu(-1)
         elif game.controls.is_just_pressed('DOWN'):
-            game.game_hud.navigate_ai_play_select(1)
+            game.game_hud.navigate_menu(1)
         elif game.controls.is_just_pressed('ESCAPE'):
             game.change_state(AIGameSelectState())
         elif game.controls.is_just_pressed('SELECT'):
@@ -326,14 +326,14 @@ class AIPlaySelectState(GameState):
         game.clock.tick(game.menu_update_rate)
     
     def draw(self, game: Game):
-        game.game_hud.draw_ai_play_select()
+        game.game_hud.draw_menu()
     
 
     def exit(self, game: Game):
         pass
 
     def _handle_ai_play_select(self, game: Game):
-        selected_ai = game.game_hud.select_ai_play_item()
+        selected_ai = game.game_hud.get_selected_item()
         if selected_ai == "Breadth First":
             game.change_state(AIPlayerBFSState())
         elif selected_ai == "Depth First":
@@ -367,7 +367,7 @@ class ExperimentSelectState(GameOverState):
 
 class AIVisionSelectState(GameState):
     def enter(self, game: Game):
-        pass
+        game.game_hud.current_menu = game.game_hud.menu_lists['ai_vision_menu']
     
     def handle_events(self, game: Game, events: list[pygame.event.Event]):
         for event in events:
@@ -376,9 +376,9 @@ class AIVisionSelectState(GameState):
     
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('UP'):
-            game.game_hud.navigate_ai_vision_select(-1)
+            game.game_hud.navigate_menu(-1)
         elif game.controls.is_just_pressed('DOWN'):
-            game.game_hud.navigate_ai_vision_select(1)
+            game.game_hud.navigate_menu(1)
         elif game.controls.is_just_pressed('ESCAPE'):
             game.change_state(AIGameSelectState())
         elif game.controls.is_just_pressed('SELECT'):
@@ -388,14 +388,14 @@ class AIVisionSelectState(GameState):
         game.clock.tick(game.menu_update_rate)
     
     def draw(self, game: Game):
-        game.game_hud.draw_ai_vision_select()
+        game.game_hud.draw_menu()
     
 
     def exit(self, game: Game):
         pass
 
     def _handle_ai_select(self, game: Game):
-        selected_ai = game.game_hud.select_ai_vision_item()
+        selected_ai = game.game_hud.get_selected_item()
         if selected_ai == "Breadth First":
             game.change_state(GraphCreationVisionBFS())
         elif selected_ai == "Depth First":

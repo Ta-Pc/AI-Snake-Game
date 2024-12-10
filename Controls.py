@@ -20,9 +20,9 @@ class Controls:
         self.joystick = self._initialize_joystick()
 
         self.SPACE = "SPACE"
-        self.UP = 'UP',
-        self.DOWN = 'DOWN',
-        self.LEFT = 'LEFT',
+        self.UP = 'UP'
+        self.DOWN = 'DOWN'
+        self.LEFT = 'LEFT'
         self.RIGHT = 'RIGHT'
         self.SELECT = 'SELECT'
         self.ESCAPE = 'ESCAPE'

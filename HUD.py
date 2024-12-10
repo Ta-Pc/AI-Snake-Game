@@ -23,6 +23,7 @@ class MenuButton:
         self.button_background = self._create_button_background()
         self.font = font
         self.animation = 0
+        
 
     def _render_text(self, text, font, color):
         return font.render(text, True, color)
@@ -68,21 +69,16 @@ class MenuButton:
                 window.blit(glow_surf, (SCREEN_WIDTH // 2 - 155, button_y - 5))
     
 class Menu:
-    def __init__(self, window, items, tittle_text):
+    def __init__(self, window, items, tittle_text, fonts):
         self.window = window
         self.items = items
-        self.font = self._load_fonts()
+        self.font = fonts
         self.tittle = MenuButton(tittle_text, self.font['title'], BRIGHT_GOLD)
         self.selected_menu_item = 0
         self.menu_buttons = [MenuButton(item_text, self.font['large']) for index, item_text in enumerate(items)]
 
-    def _load_fonts(self):
-        return {
-            'small': pygame.font.Font(None, 32),
-            'medium': pygame.font.Font(None, 48),
-            'large': pygame.font.Font(None, 72),
-            'title': pygame.font.Font(None, 96)
-        }
+    def get_selected_item(self):
+        return self.items[self.selected_menu_item]
     
     @staticmethod
     def _interpolate_color(color1, color2, factor):
@@ -131,22 +127,59 @@ class HUD:
         Args:
             window (pygame.Surface): The main game window surface for rendering.
         """
+        self.fonts = self._load_fonts()
         self.window = window
         self.score = 0 
         self.menu_lists = {
-            "main_menu": Menu(self.window, ["New Game", "Continue", "Level", "AI", "High Scores", "Quit"], "Snake Game"),
-            "game_level_menu": Menu(self.window, ["EASY", "MEDIUM", "HARD", "VERY HARD"], "Snake Game"),
-            "ai_vision_menu": Menu(self.window, ["AI Vision", "AI Play", "AI Experiment"], "Snake Game"),
-            "ai_play_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "Snake Game"),
+            "main_menu": Menu(self.window, ["New Game", "Continue", "Level", "AI", "High Scores", "Quit"], "Snake Game", self.fonts),
+            "game_level_menu": Menu(self.window, ["EASY", "MEDIUM", "HARD", "VERY HARD"], "Snake Game", self.fonts),
+            "ai_vision_menu": Menu(self.window, ["AI Vision", "AI Play", "AI Experiment"], "Snake Game", self.fonts),
+            "ai_play_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "Snake Game", self.fonts),
             "high_scores_menu": [[0] * MAX_HIGH_SCORES for _ in range(4)]
         }
         self.current_menu = self.menu_lists['main_menu']
+        self.current_level = "MEDIUM"
+        self.background = self._create_gradient_background()
+
+    def _load_fonts(self):
+        return {
+            'small': pygame.font.Font(None, 32),
+            'medium': pygame.font.Font(None, 48),
+            'large': pygame.font.Font(None, 72),
+            'title': pygame.font.Font(None, 96)
+        }
+
+    def _render_text(self, text, font, color):
+        return font.render(text, True, color)
+
+    def memorise_game_level(self, game_level=None):
+        if game_level is not None:
+            if isinstance(game_level, str):
+                self.current_level = game_level
+
+    def get_selected_item(self):
+        return self.current_menu.get_selected_item()
 
     def draw_menu(self):
         self.current_menu.draw()
 
     def navigate_menu(self, dir):
         self.current_menu.navigate_menu(dir)
+
+    @staticmethod
+    def _interpolate_color(color1, color2, factor):
+        return tuple(int(color1[i] + (color2[i] - color1[i]) * factor) for i in range(3))
+
+    def _create_gradient_background(self):
+        background = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        for y in range(SCREEN_HEIGHT):
+            color = self._interpolate_color(BRIGHT_CYAN, BRIGHT_MAGENTA, y / SCREEN_HEIGHT)
+            pygame.draw.line(background, color, (0, y), (SCREEN_WIDTH, y))
+        return background
+    
+    def _draw_centered_text(self, text_surface, y_offset=0):
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + y_offset))
+        self.window.blit(text_surface, text_rect)
 
     # --- Score Management ---
     def draw_score(self):
@@ -168,13 +201,22 @@ class HUD:
         """
         self.score += increment
 
+    def get_level_index(self, level):
+        return {
+            "EASY": 1,
+            "MEDIUM": 2,
+            "HARD": 3,
+            "VERY HARD": 4
+        }.get(level, LEVEL_1)
+
     def update_high_score(self):
         """
         Update the high scores list with the current score if it qualifies.
         """
-        self.high_scores[self.selected_level_item].append(self.score)
-        self.high_scores[self.selected_level_item] = sorted(
-            self.high_scores[self.selected_level_item], reverse=True
+        level_index = self.get_level_index(self.current_level)
+        self.high_scores[level_index].append(self.score)
+        self.high_scores[level_index] = sorted(
+            self.high_scores[level_index], reverse=True
         )[:MAX_HIGH_SCORES]
 
     # --- Drawing Methods ---
@@ -274,23 +316,6 @@ class HUD:
 
         back_text = self._render_text("Press ESC to go back", self.fonts['medium'], BRIGHT_AQUA)
         self._draw_centered_text(back_text, 280)
-
-    def memorise_game_level(self, game_level=None):
-        """
-        Memorise the current game level.
-
-        Args:
-            game_level (str or int, optional): The new game level to set. Can be a string (level name) or an integer (level index).
-        """
-        if game_level is not None:
-            if isinstance(game_level, str):
-                try:
-                    self.selected_level_item = self.game_level_items.index(game_level)
-                except ValueError:
-                    self.selected_level_item = 0
-            elif isinstance(game_level, int):
-                self.selected_level_item = max(0, min(game_level, len(self.game_level_items) - 1))
-        self.current_level = self.game_level_items[self.selected_level_item]
 
     # --- Icon Drawing Methods ---
     def draw_snake_icon(self, x, y, size):
