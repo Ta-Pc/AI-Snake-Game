@@ -34,7 +34,7 @@ These algorithms focus on visualizing the search process itself, providing insig
 
 ## How to Run
 
-1.  **Prerequisites:** Python 3.7+ (recommended to use a virtual environment)
+1.  **Prerequisites:** Python 3.12 (recommended to use a virtual environment)
 2.  **Installation:**
 
     ```bash
