@@ -55,8 +55,8 @@ class ExperimentState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed(game.controls.ESCAPE):
-            from GameUI import AIGameSelectState
-            game.change_state(AIGameSelectState())
+            from GameUI import ExperimentSelectState
+            game.change_state(ExperimentSelectState())
         elif game.controls.is_just_pressed(game.controls.SPACE):
             from GameUI import PauseState
             game.change_state(PauseState())
@@ -98,7 +98,8 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed(game.controls.ESCAPE):
-            game.running = False
+            from GameUI import ExperimentSelectState
+            game.change_state(ExperimentSelectState())
         elif game.controls.is_pressed(game.controls.SELECT):
             self.step(game)
         elif game.controls.is_just_pressed(game.controls.UP):
@@ -203,7 +204,8 @@ class GraphCreationVisionBFS_Exp_Origional(ExperimentState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed(game.controls.ESCAPE):
-            game.running = False
+            from GameUI import ExperimentSelectState
+            game.change_state(ExperimentSelectState())
         elif game.controls.is_pressed(game.controls.SELECT):
             self.step(game)
         elif game.controls.is_just_pressed(game.controls.UP):

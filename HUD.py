@@ -132,14 +132,19 @@ class HUD:
         self.score = 0 
         self.menu_lists = {
             "main_menu": Menu(self.window, ["New Game", "Continue", "Level", "AI", "High Scores", "Quit"], "Snake Game", self.fonts),
-            "game_level_menu": Menu(self.window, ["EASY", "MEDIUM", "HARD", "VERY HARD"], "Snake Game", self.fonts),
-            "ai_vision_menu": Menu(self.window, ["AI Vision", "AI Play", "AI Experiment"], "Snake Game", self.fonts),
-            "ai_play_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "Snake Game", self.fonts),
-            "high_scores_menu": [[0] * MAX_HIGH_SCORES for _ in range(4)]
+            "game_level_menu": Menu(self.window, ["EASY", "MEDIUM", "HARD", "VERY HARD"], "Level Select", self.fonts),
+            "ai_select_menu": Menu(self.window, ["AI Vision", "AI Play", "Experiment"], "Select AI", self.fonts),
+            "ai_experiment_menu": Menu(self.window, ["Default", "Online Search", "BF Search", "Greedy"], "Select AI", self.fonts),
+            "ai_play_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "AI Player", self.fonts),
+            "ai_vision_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "AI Vision", self.fonts)
         }
+        self.high_scores = [[0] * MAX_HIGH_SCORES for _ in range(4)]
         self.current_menu = self.menu_lists['main_menu']
         self.current_level = "MEDIUM"
         self.background = self._create_gradient_background()
+
+    def open(self, menu):
+        self.current_menu = self.menu_lists[menu]
 
     def _load_fonts(self):
         return {
@@ -148,6 +153,11 @@ class HUD:
             'large': pygame.font.Font(None, 72),
             'title': pygame.font.Font(None, 96)
         }
+    
+    def _create_menu_background(self):
+        menu_bg = pygame.Surface((SCREEN_WIDTH * 0.8, SCREEN_HEIGHT * 0.8), pygame.SRCALPHA)
+        pygame.draw.rect(menu_bg, (0, 0, 0, 180), menu_bg.get_rect(), border_radius=20)
+        return menu_bg
 
     def _render_text(self, text, font, color):
         return font.render(text, True, color)
@@ -301,7 +311,7 @@ class HUD:
         Draw the high scores screen.
         """
         self.window.blit(self.background, (0, 0))
-        self.window.blit(self.menu_bg, (SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1))
+        self.window.blit(self._create_menu_background(), (SCREEN_WIDTH * 0.1, SCREEN_HEIGHT * 0.1))
         
         title_text = self._render_text("High Scores", self.fonts['title'], BRIGHT_GOLD)
         self._draw_centered_text(title_text, -200)
@@ -309,7 +319,7 @@ class HUD:
         details_text = self._render_text(f"Level: {self.current_level}", self.fonts['small'], WHITE)
         self._draw_centered_text(details_text, -120)
 
-        category = self.selected_level_item
+        category = self.get_level_index(self.current_level)
         for index, score in enumerate(self.high_scores[category]):
             score_text = self._render_text(f"{index + 1}. {score}", self.fonts['large'], WHITE)
             self._draw_centered_text(score_text, -100 + (index + 1) * 60)
