@@ -134,7 +134,7 @@ class HUD:
             "main_menu": Menu(self.window, ["New Game", "Continue", "Level", "AI", "High Scores", "Quit"], "Snake Game", self.fonts),
             "game_level_menu": Menu(self.window, ["EASY", "MEDIUM", "HARD", "VERY HARD"], "Level Select", self.fonts),
             "ai_select_menu": Menu(self.window, ["AI Vision", "AI Play", "Experiment"], "Select AI", self.fonts),
-            "ai_experiment_menu": Menu(self.window, ["Default", "Online Search", "BF Search", "Greedy"], "Select AI", self.fonts),
+            "ai_experiment_menu": Menu(self.window, ["Default", "Local Search", "BF Search", "Greedy", "Create State"], "Select AI", self.fonts),
             "ai_play_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "AI Player", self.fonts),
             "ai_vision_menu": Menu(self.window, ["Breadth First", "Depth First", "A Star", "Greedy"], "AI Vision", self.fonts)
         }

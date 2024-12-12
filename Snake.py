@@ -503,6 +503,13 @@ class Food(Thing):
         self.location = (x, y)
         return (x, y)
     
+    def set_food_cell(self, location):
+        x, y = location
+        self.rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
+        self.center = (x + self.radius, y + self.radius)
+        self.location = (x, y)
+        self.cell = (x, y)
+    
     def replace(self, snake):
         """Reposition the food to a new random location."""
         self.cell = self.place(snake)

@@ -18,6 +18,7 @@ from Snake import *
 from Search import *
 from Constants import *
 from GameState import GameState
+from StateManager import GameStateManager
 import logging
 import os
 os.system('color')  # Enable ANSI colors in Windows terminal
@@ -44,6 +45,139 @@ ch.setLevel(logging.DEBUG)
 ch.setFormatter(formater)
 logger.addHandler(ch)
 
+import pygame
+from GameState import GameState
+from Constants import *
+from Snake import Snake, Food, SnakeBody
+from StateManager import GameStateManager
+
+import pygame
+from GameState import GameState
+from Constants import *
+from Snake import Snake, Food, SnakeBody
+from StateManager import GameStateManager
+
+class CreateState(GameState):
+    """A state for interactively creating a game state using mouse input."""
+
+    def enter(self, game: Game):
+        self.game = game
+        self.phase = 1 # 1 for head, 2 for food, 3 for tail
+        self.snake_head = None
+        self.snake_tail = []
+        self.food = None
+        self.snake_length = self.get_snake_length() # ask for snake length
+        self.current_tail_pos = 0 # Current number of tail segments
+        self.state = None
+        game.display_message(self.get_prompt(), duration=4000)
+
+    def get_snake_length(self):
+      while True:
+          try:
+            length = int(input("Enter the length of the snake you want: "))
+            if length >= 0: return length
+            else:
+              print("Please enter a positive number")
+          except ValueError:
+              print("Invalid input, please enter an integer")
+
+    def handle_events(self, game: Game, events: list[pygame.event.Event]):
+        for event in events:
+            if event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                self._handle_actions(game)
+            
+
+    def _handle_actions(self, game: Game):
+      if game.controls.is_just_pressed(game.controls.ESCAPE):
+          from GameUI import ExperimentSelectState
+          game.change_state(ExperimentSelectState())
+      elif game.controls.is_just_pressed(game.controls.SELECT): # Select to complete phase
+         if self.phase == 3 and self.current_tail_pos == self.snake_length:
+             self._finalize_state(game) # Move to experiment phase
+      elif game.controls.is_just_pressed(game.controls.MOUSE_LEFT):
+         self._handle_mouse_click(game)
+
+    def update(self, game: Game):
+        game.clock.tick(game.menu_update_rate)
+    
+    def draw(self, game: Game):
+        game.window.fill(BLACK)  # White background
+        self.draw_grid(game.window)
+        if self.snake_head:
+           self.draw_snake_head(game.window)
+        if self.snake_tail:
+           self.draw_snake_tail(game.window)
+        if self.food:
+           self.draw_food(game.window)
+        game.draw_message()
+
+    def draw_grid(self, window):
+      # Draw grid lines here
+      for x in range(0, SCREEN_WIDTH, CELL_SIZE):
+          pygame.draw.line(window, WHITE, (x, 0), (x, SCREEN_HEIGHT))
+      for y in range(0, SCREEN_HEIGHT, CELL_SIZE):
+          pygame.draw.line(window, WHITE, (0, y), (SCREEN_WIDTH, y))
+
+    def draw_snake_head(self, window):
+       rect = (self.snake_head[0], self.snake_head[1], CELL_SIZE, CELL_SIZE)
+       pygame.draw.rect(window, BRIGHT_MAGENTA, rect)
+    
+    def draw_snake_tail(self, window):
+       for pos in self.snake_tail:
+            rect = (pos[0], pos[1], CELL_SIZE, CELL_SIZE)
+            pygame.draw.rect(window, BRIGHT_LIME, rect)
+
+    def draw_food(self, window):
+       pygame.draw.circle(window, BRIGHT_GOLD, 
+                       (self.food[0] + CELL_SIZE//2, self.food[1] + CELL_SIZE//2), CELL_SIZE//2)
+
+    def get_prompt(self):
+      if self.phase == 1: return "Place the snake head by clicking on screen"
+      if self.phase == 2: return "Place the food by clicking on screen"
+      if self.phase == 3: return "Place the snake tail by clicking on screen, press SELECT when done"
+
+    def _handle_mouse_click(self, game: Game):
+        """Handle mouse clicks to place snake head, tail, and food."""
+        mouse_x, mouse_y = game.controls.mouse_pos
+        cell_x = (mouse_x // CELL_SIZE) * CELL_SIZE
+        cell_y = (mouse_y // CELL_SIZE) * CELL_SIZE
+        
+        click_pos = (cell_x, cell_y)
+
+        if self.phase == 1:
+           self.snake_head = click_pos
+           self.phase = 2
+        elif self.phase == 2:
+           if click_pos != self.snake_head:
+               self.food = click_pos
+               self.phase = 3
+        elif self.phase == 3:
+            if self.current_tail_pos == 0:
+                #If it's the first tail segment, check against the head
+                 if self.is_valid_neighbor(click_pos, self.snake_head) and self.current_tail_pos < self.snake_length:
+                      self.snake_tail.append(click_pos)
+                      self.current_tail_pos += 1
+            elif self.current_tail_pos > 0 and self.current_tail_pos < self.snake_length:
+                if self.is_valid_neighbor(click_pos, self.snake_tail[-1]) and self.current_tail_pos < self.snake_length:
+                  self.snake_tail.append(click_pos)
+                  self.current_tail_pos += 1
+
+        game.display_message(self.get_prompt(), duration=4000)
+
+    def is_valid_neighbor(self, click_pos, prev_pos):
+      """Check if the click_pos is a valid neighbor of the previous segment"""
+      dx = click_pos[0] - prev_pos[0]
+      dy = click_pos[1] - prev_pos[1]
+      return (abs(dx) == CELL_SIZE and dy == 0) or (abs(dy) == CELL_SIZE and dx == 0)
+
+    def _finalize_state(self, game):
+        self.state = GameStateManager.create_state(self.snake_head, self.snake_tail, "UP", self.food, 0)
+        from GameUI import GraphCreationVisionLocalSearch_Exp
+        game.change_state(GraphCreationVisionLocalSearch_Exp())
+    
+    def exit(self, game: Game):
+      game.previous_state = self             
+
 class ExperimentState(GameState):
     def enter(self, game: Game):
         game.display_message("This is an experiment", duration=4000)
@@ -60,7 +194,7 @@ class ExperimentState(GameState):
         elif game.controls.is_just_pressed(game.controls.SPACE):
             from GameUI import PauseState
             game.change_state(PauseState())
-    
+
     def update(self, game: Game):
         game.clock.tick(game.game_update_rate)
     
@@ -72,13 +206,16 @@ class ExperimentState(GameState):
     def exit(self, game: Game):
         game.previous_state = self
 
-
 class GraphCreationVisionLocalSearch_Exp(ExperimentState):
     def enter(self, game: Game):
         self.snake = Snake((SCREEN_CENTER[0], SCREEN_CENTER[1]))
         self.food = Food(self.snake, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        if game.previous_state and isinstance(game.previous_state, CreateState):
+             self.state = game.previous_state.state
+             GameStateManager.restore_state(self.state, self)
         self.big_food = BigFood(self.snake, (SCREEN_WIDTH, SCREEN_HEIGHT), 2)
         self.node_size = self.compute_node_size()
+        self.game_hud = game.game_hud
         self.rand_fact = 0
         self.initialize()
 
@@ -106,6 +243,16 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
             game.game_update_rate += 2
         elif game.controls.is_just_pressed(game.controls.DOWN):
             game.game_update_rate -= 2
+        if game.controls.is_just_pressed("S"): # s to save state
+            state = GameStateManager.capture_state(self)
+            GameStateManager.save_state(state) # save to json
+        if game.controls.is_just_pressed("L"): # l to load state
+            state = GameStateManager.load_state()
+            if state:
+                GameStateManager.restore_state(state, self) # restore to game
+                self.initialize()
+            else: game.display_message("There is nothing to load, pleas save with S", duration=4000)
+    
 
     def draw(self, game: Game):
         time = pygame.time.get_ticks() / 1000
@@ -131,7 +278,13 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
 
     def step(self, game: Game):
         # Get solution and move snake
-        self.snake.set_direction(self.find_solution())
+        next_node = self.find_solution()
+        if next_node == None:
+            state = GameStateManager.capture_state(self)
+            GameStateManager.save_state(state) # save to json
+            from GameUI import GameOverState
+            game.change_state(GameOverState())
+        else: self.snake.set_direction(next_node.action)
         self.snake.move()
 
         if self.snake.is_eating_food(self.food):
@@ -146,7 +299,7 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
         new_snake = list([self.snake.head.cell] + [sbo.cell for sbo in self.snake.tail])
         neighbours = ocupiable_cells(self.node.expand(self.problem), new_snake)
         self.node = self.select_best_amoungst(neighbours)
-        return self.node.action
+        return self.node
 
     def initialize(self):
         self.problem = SnakeProblem(self.snake.head.cell, self.food.cell)
@@ -161,15 +314,12 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
             for child_node in neighbours:
                 child_cost = self.cost(child_node)
                 logger.debug(f"{color_text("Child node", ANSIWHITE)}: {child_node} has cost: {child_cost}")
-                if child_cost < best_cost:
+                if child_cost <= best_cost:
                     logger.debug(f"{color_text("Chosen node", ANSICYAN)}: {child_node} has cost: {child_cost} < {best_cost}")
                     best_node = child_node
                     best_cost = child_cost
             return best_node
         return None
-
-
-
 
 #********************************************************************************************************************
 # Past Experiments

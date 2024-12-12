@@ -379,15 +379,18 @@ class ExperimentSelectState(GameState):
             self._handle_experiment_select(game)
 
     def _handle_experiment_select(self, game: Game):
+        # I could change this to have 
         selected_ai = game.game_hud.get_selected_item()
         if selected_ai == "Default":
             game.change_state(ExperimentState())
-        elif selected_ai == "Online Search":
+        elif selected_ai == "Local Search":
             game.change_state(GraphCreationVisionLocalSearch_Exp())
         elif selected_ai == "BF Search":
             game.change_state(GraphCreationVisionBFS_Exp_Origional())
         elif selected_ai == "Greedy":
             game.change_state(AIPlayerGreedyState())
+        elif selected_ai == "Create State":
+            game.change_state(CreateState())
         game.start_game(new_game=True)
 
     def exit(self, game: Game):

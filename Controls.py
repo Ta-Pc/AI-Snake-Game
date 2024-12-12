@@ -1,17 +1,3 @@
-"""Copyright 2024 Sipho Zuma
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License."""
-
 import pygame
 
 class Controls:
@@ -26,7 +12,8 @@ class Controls:
         self.RIGHT = 'RIGHT'
         self.SELECT = 'SELECT'
         self.ESCAPE = 'ESCAPE'
-
+        self.MOUSE_LEFT = "MOUSE_LEFT"
+        self.MOUSE_RIGHT = "MOUSE_RIGHT"
         
         self.key_map = {
             pygame.K_UP: 'UP',
@@ -35,7 +22,9 @@ class Controls:
             pygame.K_SPACE: 'SPACE',
             pygame.K_RIGHT: 'RIGHT',
             pygame.K_RETURN: 'SELECT',
-            pygame.K_ESCAPE: 'ESCAPE'
+            pygame.K_ESCAPE: 'ESCAPE',
+            pygame.K_s: 'S',
+            pygame.K_l: 'L'
         }
         
         self.dpad_button_map = {
@@ -50,6 +39,9 @@ class Controls:
         self.pressed = set()
         self.just_pressed = set()
         self.just_released = set()
+        self.mouse_pos = None
+        self.mouse_just_pressed = False
+        self.mouse_pressed = False
 
     def _initialize_joystick(self):
         if pygame.joystick.get_count() > 0:
@@ -64,6 +56,7 @@ class Controls:
     def update(self, events):
         self.just_pressed.clear()
         self.just_released.clear()
+        self.mouse_just_pressed = False
 
         for event in events:
             if event.type == pygame.KEYDOWN:
@@ -86,6 +79,25 @@ class Controls:
                 if action:
                     self.pressed.discard(action)
                     self.just_released.add(action)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1: # Left click
+                   self.mouse_pressed = True
+                   self.mouse_just_pressed = True
+                   self.pressed.add(self.MOUSE_LEFT)
+                   self.just_pressed.add(self.MOUSE_LEFT)
+                   self.mouse_pos = event.pos
+                if event.button == 3:
+                    self.pressed.add(self.MOUSE_RIGHT)
+                    self.just_pressed.add(self.MOUSE_RIGHT)
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    self.mouse_pressed = False
+                    self.pressed.discard(self.MOUSE_LEFT)
+                    self.just_released.add(self.MOUSE_LEFT)
+                if event.button == 3:
+                   self.pressed.discard(self.MOUSE_RIGHT)
+                   self.just_released.add(self.MOUSE_RIGHT)
+
 
     def is_pressed(self, action):
         return action in self.pressed
