@@ -1,6 +1,6 @@
-# AI Snake Game
+# AI-Powered Snake Game with Search Algorithm Visualizations
 
-This project implements an AI agent to play the classic Snake game using various search algorithms. It provides both AI-controlled gameplay and visualizations of search algorithms exploring the game space. This project was developed as a practical application of AI concepts, offering a hands-on understanding of search algorithms in a game environment.
+A Python-based implementation of the classic Snake game, featuring AI agents powered by various search algorithms and interactive visualizations of their exploration process.
 
 ## Implementation Details
 
@@ -94,11 +94,13 @@ These algorithms focus on visualizing the search process itself, providing insig
 
 Contributions are welcome! Feel free to submit pull requests for bug fixes, new features, or improved documentation.
 
-
 ## License
 
 This project is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details.
 
 You may obtain a copy of the License at:
 
-[http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+[![Code Style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
