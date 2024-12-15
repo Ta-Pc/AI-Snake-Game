@@ -2,3 +2,6 @@
 *.html linguist-vendored
 *.css linguist-vendored
 *.js linguist-vendored
+*.tex linguist-vendored
+*.sty linguist-vendored
+*.cls linguist-vendored
