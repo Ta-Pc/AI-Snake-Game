@@ -1,9 +1,1 @@
-.vs/* linguist-vendored
-__pycache__/* linguist-vendored
-build/* linguist-vendored
-dist/* linguist-vendored
-GameEXP.py linguist-language=Python
-*.pyproj linguist-vendored
-*.sln linguist-vendored
-README.md linguist-vendored
-requirements.txt linguist-vendored
+*.py linguist-language=Python
