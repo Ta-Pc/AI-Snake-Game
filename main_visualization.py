@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-from visualization import plot_1d_cost_landscape
+from game.visualization import plot_1d_cost_landscape
 import matplotlib.pyplot as plt
-from Snake import Snake, Food
-from Search import Node, SnakeProblem
-from Constants import*
+from utils.snake import Snake, Food
+from utils.search import Node, SnakeProblem
+from utils.constants import*
 
 def main():
     snake = Snake((SCREEN_CENTER[0], SCREEN_CENTER[1]))
