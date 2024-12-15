@@ -13,16 +13,14 @@ See the License for the specific language governing permissions and
 limitations under the License."""
 
 from collections import deque
-from Search import Node
-from Search import SnakeProblem
-from utils import PriorityQueue
-from Snake import Snake
-from Snake import Food
-from Constants import SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE
-from Game import Game
+from utils.search import Node, SnakeProblem 
+from utils.snake import Food, Snake
+from utils.utils import PriorityQueue
+from utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT, CELL_SIZE
+from game.game import Game
 import pygame
-from Controls import Controls
-from agents import Environment
+from ui.controls import Controls
+from game.agents import Environment
 
 def move(head_cell, parent_snake):
     """Add head, remove tail, return child that moved"""

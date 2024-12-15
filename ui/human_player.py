@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-from Game import Game
-from GameState import GameState
-from Constants import *
-from Snake import *
-from Search import *
+from game.game import Game
+from game.game_state import GameState
+from utils.constants import *
+from utils.snake import *
+from utils.search import *
 
 #*************************************************************************************************************************
 # Human Playing Snake
@@ -36,10 +36,10 @@ class PlayingState(GameState):
             game.snake.set_direction(direction)
             break
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import MenuState
+            from ui.game_ui import MenuState
             game.change_state(MenuState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
     
     def update(self, game: Game):
@@ -49,7 +49,7 @@ class PlayingState(GameState):
 
         if game.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
         game.clock.tick(game.game_update_rate)
     
@@ -79,10 +79,10 @@ class PlayingWithAIState(GameState):
                 game.snake.set_direction(direction)
                 break
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import MenuState
+            from ui.game_ui import MenuState
             game.change_state(MenuState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
     
     def update(self, game: Game):
@@ -106,7 +106,7 @@ class PlayingWithAIState(GameState):
 
         if game.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
         game.clock.tick(game.game_update_rate)
     

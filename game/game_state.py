@@ -14,7 +14,7 @@ limitations under the License."""
 
 from abc import ABC, abstractmethod
 import pygame
-from Game import Game
+from game.game import Game
 
 class GameState(ABC):
     @abstractmethod

@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-from Game import Game
-from GameState import *
-from Constants import *
-from Snake import *
-from Search import *
+from game.game import Game
+from game.game_state import *
+from utils.constants import *
+from utils.snake import *
+from utils.search import *
 
 class GraphCreationVisionDFS(GameState):
     def enter(self, game: Game):
@@ -44,10 +44,10 @@ class GraphCreationVisionDFS(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIVisionSelectState
+            from ui.game_ui import AIVisionSelectState
             game.change_state(AIVisionSelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def next_step(self):
@@ -176,10 +176,10 @@ class GraphCreationVisionBFS(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIVisionSelectState
+            from ui.game_ui import AIVisionSelectState
             game.change_state(AIVisionSelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def next_step(self):
@@ -325,10 +325,10 @@ class GraphCreationVisionAStarSearch(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIVisionSelectState
+            from ui.game_ui import AIVisionSelectState
             game.change_state(AIVisionSelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def next_step(self):
@@ -469,10 +469,10 @@ class GraphCreationVisionGreedySearch(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIVisionSelectState
+            from ui.game_ui import AIVisionSelectState
             game.change_state(AIVisionSelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def next_step(self):
@@ -627,10 +627,10 @@ class GraphCreationVisionAStarSearchUpdated(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
 
@@ -893,7 +893,7 @@ class GraphVisionOnlineSearchState(GameState):
             
             if self.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
 
         game.clock.tick(game.game_update_rate)
@@ -937,10 +937,10 @@ class GraphVisionOnlineSearchState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIVisionSelectState
+            from ui.game_ui import AIVisionSelectState
             game.change_state(AIVisionSelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def exit(self, game: Game):

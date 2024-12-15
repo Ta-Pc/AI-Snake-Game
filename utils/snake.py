@@ -13,8 +13,8 @@ See the License for the specific language governing permissions and
 limitations under the License."""
 
 from collections import deque
-from Constants import *
-from agents import *
+from utils.constants import *
+from game.agents import *
 import pygame
 import random
 import math

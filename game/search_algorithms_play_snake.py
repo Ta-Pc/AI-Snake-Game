@@ -12,11 +12,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License."""
 
-from Game import Game
-from GameState import *
-from Constants import *
-from Snake import *
-from Search import *
+from game.game import Game
+from game.game_state import *
+from utils.constants import *
+from utils.snake import *
+from utils.search import *
 
 #*************************************************************************************************************************
 # Computer Playing Snake
@@ -49,10 +49,10 @@ class AIPlayerOnlineState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def update(self, game: Game):
@@ -151,7 +151,7 @@ class AIPlayerOnlineState(GameState):
         self.consecutive_successes = 0
         
         game.game_hud.update_high_score()
-        from GameUI import GameOverState
+        from ui.game_ui import GameOverState
         game.change_state(GameOverState())
 
     def update_danger_memory(self, position):
@@ -243,10 +243,10 @@ class AIPlayerBFSState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
     
     def update(self, game: Game):
@@ -279,7 +279,7 @@ class AIPlayerBFSState(GameState):
 
         if self.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
 
         game.clock.tick(game.game_update_rate)
@@ -321,10 +321,10 @@ class AIPlayerDFSState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
     
     def update(self, game: Game):
@@ -357,7 +357,7 @@ class AIPlayerDFSState(GameState):
 
         if self.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
 
         game.clock.tick(game.game_update_rate)
@@ -401,10 +401,10 @@ class AIPlayerAStarSearchState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
     
     def update(self, game: Game):
@@ -441,7 +441,7 @@ class AIPlayerAStarSearchState(GameState):
 
         if self.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
 
         game.clock.tick(game.game_update_rate)
@@ -489,10 +489,10 @@ class AIPlayerGreedyState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
     
     def update(self, game: Game):  
@@ -527,7 +527,7 @@ class AIPlayerGreedyState(GameState):
 
         if self.snake.is_eating_self():
                 game.game_hud.update_high_score()
-                from GameUI import GameOverState
+                from ui.game_ui import GameOverState
                 game.change_state(GameOverState())
 
         game.clock.tick(game.game_update_rate)
@@ -571,10 +571,10 @@ class AIPlayerHamiltonianState(GameState):
 
     def _handle_actions(self, game: Game):
         if game.controls.is_just_pressed('ESCAPE'):
-            from GameUI import AIPlaySelectState
+            from ui.game_ui import AIPlaySelectState
             game.change_state(AIPlaySelectState())
         elif game.controls.is_just_pressed('SPACE'):
-            from GameUI import PauseState
+            from ui.game_ui import PauseState
             game.change_state(PauseState())
 
     def generate_hamiltonian_path(self):

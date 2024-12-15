@@ -14,7 +14,7 @@ limitations under the License."""
 
 import pygame
 import math
-from Constants import *
+from utils.constants import *
 
 class MenuButton:
     def __init__(self, text, font, color=WHITE, selected_color=BRIGHT_GOLD):

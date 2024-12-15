@@ -13,15 +13,19 @@ See the License for the specific language governing permissions and
 limitations under the License."""
 
 from pygame.event import Event
-from Game import Game
-from GameState import *
-from Constants import *
-from Snake import *
-from Search import *
-from HumanPlayer import *
-from Experiment import *
-from SearchAlgorithmsVision import *
-from SearchAlgorithmsPlaySnake import *
+from game.game import Game
+from game.game_state import *
+from utils.constants import *
+from utils.snake import *
+from utils.search import *
+from ui.human_player import *
+from experiments.core import ExperimentState
+from experiments.state_creation import CreateState
+from experiments.graph_creation_vision_bfs_exp import GraphCreationVisionBFS_Exp_Origional
+from experiments.graph_creation_vision_local_search_exp import GraphCreationVisionLocalSearch_Exp
+
+from game.search_algorithms_play_snake import *
+from game.search_algorithms_vision import *
 
 class MenuState(GameState):
     def enter(self, game: Game):

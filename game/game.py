@@ -15,11 +15,11 @@ limitations under the License."""
 import json
 import pygame
 import pygame.time
-from Constants import *
-from Snake import *
+from utils.constants import *
+from utils.snake import *
 from HUD import HUD
 from collections import deque
-from Controls import Controls
+from ui.controls import Controls
     
 
 class Game:
@@ -70,9 +70,7 @@ class Game:
         self.last_ai_update = 0  # Timestamp of the last AI update
 
         self.previous_state = None
-        from GameUI import MenuState
-        from Experiment import GraphCreationVisionLocalSearch_Exp
-        from Experiment import AIPlayerBFSStateExp
+        from ui.game_ui import MenuState
         self.state = MenuState()
         self.state.enter(self)
 

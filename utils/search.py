@@ -15,10 +15,10 @@ limitations under the License."""
 # This class is responsible for handling all the snake brain processes
 import pygame
 import numpy as np
-from Constants import*
+from utils.constants import*
 from collections import deque
 from collections import defaultdict
-from utils import*
+from utils.utils import *
 import logging
 
 logger = logging.getLogger("Search log")

@@ -1,9 +1,9 @@
 import json
 from collections import deque
-from Snake import Snake, SnakeBody, Food
-from Constants import *
+from utils.snake import Snake, SnakeBody, Food
+from utils.constants import *
 
-class GameStateManager:
+class GameSaveManager:
     """
     Manages game states, allowing for capturing, creating, modifying, and restoring game states.
     """

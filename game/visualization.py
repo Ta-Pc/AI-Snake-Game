@@ -16,9 +16,9 @@ from collections import deque
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.ndimage import gaussian_filter
-from Snake import Snake, Food, Direction
-from Search import Node, SnakeProblem
-from Constants import *
+from utils.snake import Snake, Food, Direction
+from utils.search import Node, SnakeProblem
+from utils.constants import *
 from scipy.spatial.distance import cityblock as manhattan_distance
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
