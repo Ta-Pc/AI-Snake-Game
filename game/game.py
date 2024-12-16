@@ -17,7 +17,7 @@ import pygame
 import pygame.time
 from utils.constants import *
 from utils.snake import *
-from HUD import HUD
+from ui.game_hud import HUD
 from collections import deque
 from ui.controls import Controls
     
@@ -248,7 +248,7 @@ class Game:
         except (FileNotFoundError, json.JSONDecodeError):
             # Initialize with default values if no save file exists or if it's corrupted
             self.game_hud.high_scores = []
-            self.game_hud.update_game_level("EASY")
+            self.game_hud.memorise_game_level("MEDIUM")
             self.game_update_rate = LEVEL_1
 
     def load_snake_data(self):

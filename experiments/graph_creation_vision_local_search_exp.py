@@ -20,9 +20,9 @@ from game.game import Game
 from utils.snake import Snake, Food, BigFood
 from utils.search import Node, SnakeProblem
 from utils.constants import *
-from state_creation import CreateState
-from StateManager import GameStateManager
-from core import *
+from experiments.state_creation import CreateState
+from game.game_save_manager import GameSaveManager
+from experiments.core import *
 
 # ANSI escape codes for colors
 ANSIRESET = "\033[0m"
@@ -52,7 +52,7 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
         self.food = Food(self.snake, (SCREEN_WIDTH, SCREEN_HEIGHT))
         if game.previous_state and isinstance(game.previous_state, CreateState):
              self.state = game.previous_state.state
-             GameStateManager.restore_state(self.state, self)
+             GameSaveManager.restore_state(self.state, self)
         self.big_food = BigFood(self.snake, (SCREEN_WIDTH, SCREEN_HEIGHT), 2)
         self.node_size = self.compute_node_size()
         self.game_hud = game.game_hud
@@ -84,12 +84,12 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
         elif game.controls.is_just_pressed(game.controls.DOWN):
             game.game_update_rate -= 2
         if game.controls.is_just_pressed("S"): # s to save state
-            state = GameStateManager.capture_state(self)
-            GameStateManager.save_state(state) # save to json
+            state = GameSaveManager.capture_state(self)
+            GameSaveManager.save_state(state) # save to json
         if game.controls.is_just_pressed("L"): # l to load state
-            state = GameStateManager.load_state()
+            state = GameSaveManager.load_state()
             if state:
-                GameStateManager.restore_state(state, self) # restore to game
+                GameSaveManager.restore_state(state, self) # restore to game
                 self.initialize()
             else: game.display_message("There is nothing to load, pleas save with S", duration=4000)
     
@@ -120,8 +120,8 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
         # Get solution and move snake
         next_node = self.find_solution()
         if next_node == None:
-            state = GameStateManager.capture_state(self)
-            GameStateManager.save_state(state) # save to json
+            state = GameSaveManager.capture_state(self)
+            GameSaveManager.save_state(state) # save to json
             from ui.game_ui import GameOverState
             game.change_state(GameOverState())
         else: self.snake.set_direction(next_node.action)

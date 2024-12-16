@@ -20,7 +20,7 @@ from game.game import Game
 from utils.snake import Snake, Food, BigFood
 from utils.search import Node, SnakeProblem, PriorityQueue
 from utils.constants import *
-from core import *
+from experiments.core import *
 
 class GraphCreationVisionBFS_Exp_Origional(ExperimentState):
     def enter(self, game: Game):

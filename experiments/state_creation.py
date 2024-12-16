@@ -18,7 +18,7 @@ import pygame
 from game.game import Game
 from experiments.core import ExperimentState
 from utils.constants import *
-from StateManager import GameStateManager
+from game.game_save_manager import GameSaveManager
 
 class CreateState(ExperimentState):
     """A state for interactively creating a game state using mouse input."""
@@ -134,7 +134,7 @@ class CreateState(ExperimentState):
       return (abs(dx) == CELL_SIZE and dy == 0) or (abs(dy) == CELL_SIZE and dx == 0)
 
     def _finalize_state(self, game):
-        self.state = GameStateManager.create_state(self.snake_head, self.snake_tail, "UP", self.food, 0)
+        self.state = GameSaveManager.create_state(self.snake_head, self.snake_tail, "UP", self.food, 0)
         from ui.game_ui import GraphCreationVisionLocalSearch_Exp
         game.change_state(GraphCreationVisionLocalSearch_Exp())
     
