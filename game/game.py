@@ -247,9 +247,15 @@ class Game:
                 self.game_update_rate = self.get_update_rate(self.game_hud.current_level)
         except (FileNotFoundError, json.JSONDecodeError):
             # Initialize with default values if no save file exists or if it's corrupted
-            self.game_hud.high_scores = []
-            self.game_hud.memorise_game_level("MEDIUM")
-            self.game_update_rate = LEVEL_1
+            self.set_default_scores()
+            self.set_default_level()
+            
+    def set_default_level(self):
+        self.game_hud.memorise_game_level("MEDIUM")
+        self.game_update_rate = LEVEL_5
+
+    def set_default_scores(self):
+        self.game_hud.high_scores = [[0] * MAX_HIGH_SCORES for _ in range(4)]
 
     def load_snake_data(self):
         """

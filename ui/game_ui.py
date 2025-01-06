@@ -262,7 +262,7 @@ class LevelSelectState(GameState):
     
     def exit(self, game: Game):
         pass
-
+    
     def _handle_level_select(self, game: Game):
         selected_level = game.game_hud.get_selected_item()
         game.game_hud.memorise_game_level(selected_level)

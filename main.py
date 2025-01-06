@@ -13,7 +13,6 @@ See the License for the specific language governing permissions and
 limitations under the License."""
 
 from game.game import Game
-from pyinstrument import Profiler
 
 def main():
     game = Game()

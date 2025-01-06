@@ -115,7 +115,7 @@ class GraphCreationVisionBFS_Exp_Origional(ExperimentState):
             self.solution = self.find_solution(game)
             if self.solution: break
 
-        self.plot_1d_cost_landscape(self.snake, self.food, self.problem, CELL_SIZE)
+        #self.plot_1d_cost_landscape(self.snake, self.food, self.problem, CELL_SIZE)
 
         if self.solution:
             action = self.solution.popleft()
