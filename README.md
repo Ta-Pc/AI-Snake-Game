@@ -39,7 +39,7 @@ These algorithms focus on visualizing the search process itself, providing insig
 
     ```bash
     git clone https://github.com/Ta-Pc/Snake-Game.git 
-    cd ai-snake-game
+    cd Snake-Game
     python3 -m venv .venv
     source .venv/bin/activate  # Activate virtual environment (Linux/macOS)
     .venv\Scripts\activate      # Activate virtual environment (Windows)
