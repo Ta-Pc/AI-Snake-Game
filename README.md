@@ -35,14 +35,21 @@ These algorithms focus on visualizing the search process itself, providing insig
 ## How to Run
 
 1.  **Prerequisites:** Python 3.7+ (recommended to use a virtual environment)
-2.  **Installation:**
+2.  **Installation (Linux/macOS):**
 
     ```bash
     git clone https://github.com/Ta-Pc/Snake-Game.git 
     cd Snake-Game
     python -m venv .venv
-    source .venv/bin/activate  # Activate virtual environment (Linux/macOS)
-    .venv\Scripts\activate      # Activate virtual environment (Windows)
+    source .venv/bin/activate
+    pip install -r requirements.txt
+    ```
+    **Installation (Windows):**
+    ```bash
+    git clone https://github.com/Ta-Pc/Snake-Game.git 
+    cd Snake-Game
+    python -m venv .venv
+    .venv\Scripts\activate
     pip install -r requirements.txt
     ```
 3.  **Running the Game:**
