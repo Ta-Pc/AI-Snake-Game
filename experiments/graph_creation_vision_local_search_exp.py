@@ -153,9 +153,9 @@ class GraphCreationVisionLocalSearch_Exp(ExperimentState):
 
             for child_node in neighbours:
                 child_cost = self.cost(child_node)
-                logger.debug(f"{color_text("Child node", ANSIWHITE)}: {child_node} has cost: {child_cost}")
+                logger.debug(f"{color_text('Child node', ANSIWHITE)}: {child_node} has cost: {child_cost}")
                 if child_cost <= best_cost:
-                    logger.debug(f"{color_text("Chosen node", ANSICYAN)}: {child_node} has cost: {child_cost} < {best_cost}")
+                    logger.debug(f"{color_text('Chosen node', ANSICYAN)}: {child_node} has cost: {child_cost} < {best_cost}")
                     best_node = child_node
                     best_cost = child_cost
             return best_node
