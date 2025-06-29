@@ -7,11 +7,40 @@ A Python-based implementation of the classic Snake game, featuring AI agents pow
 
 ---
 
-### **✨ Core AI Visualization in Action**
+### ✨ AI in Action: Visualization vs. Gameplay
 
-*(This is where your most impressive GIF will go. A recruiter should see this first!)*
+This project features two distinct modes for interacting with the AI. You can either watch the algorithm's "thought process" in the **Visualization Mode** or see it take control of the snake in the **Autonomous Gameplay Mode**.
 
-![A* Search Algorithm Visualization](YOUR_AI_VISUALIZATION_GIF_HERE)
+<table>
+  <tr>
+    <td align="center">
+      <strong>1. Pathfinding Visualization (AI Vision)</strong>
+    </td>
+    <td align="center">
+      <strong>2. Autonomous Gameplay (AI Player)</strong>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <a href="LINK_TO_YOUR_VISUALIZATION_GIF_HERE">
+        <img src="https://github.com/user-attachments/assets/90425785-7686-40ba-9b8a-244cf2cb4fb3" alt="AI Pathfinding Visualization"/>
+      </a>
+    </td>
+    <td valign="top">
+      <a href="LINK_TO_YOUR_GAMEPLAY_GIF_HERE">
+        <img src="https://github.com/user-attachments/assets/b57227ed-4eca-491a-89f9-90b1da4c4dc8" alt="AI Autonomous Gameplay"/>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <p>This mode is an educational tool designed to show <em>how</em> the A* search algorithm works. The colored squares visualize the "open set" (nodes to be explored) and "closed set" (nodes already explored). It provides a clear, step-by-step look at the AI's decision-making process as it finds the most optimal path to the food.</p>
+    </td>
+    <td valign="top">
+      <p>This mode demonstrates the practical application of the A* algorithm. Here, the AI takes direct control of the snake and plays the game autonomously. This showcases the algorithm's real-time performance and its ability to act as a robust agent within the rules and dynamics of the game environment.</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
